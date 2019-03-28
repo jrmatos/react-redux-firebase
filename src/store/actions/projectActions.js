@@ -5,13 +5,15 @@ export const createProject = (project) => {
     return async (dispatch, getState, { getFirebase, getFirestore }) => {
         // make async call to database
         const firestore = getFirestore();
+        const profile = getState().firebase.profile;
+        const authorId = getState().firebase.auth.uid;
 
         try {
             await firestore.collection('projects').add({
                 ...project,
-                authorFirstName: 'Net',
-                authorLastName: 'Ninja',
-                authorId: 12345,
+                authorFirstName: profile.firstName,
+                authorLastName: profile.lastName,
+                authorId: authorId,
                 createdAt: new Date()
             });
     
